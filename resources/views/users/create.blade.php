@@ -1,30 +1,49 @@
-<x-guest-layout>
+<x-app-layout>
+    <x-slot name="header">
+        @include('partials.header', [
+            'title' => 'Create user',
+            'route' => 'users.create'
+        ])
+    </x-slot>
+
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/" class="flex items-center my-4 text-lg font-bold">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                <p>Residence checkpoint acces</p>
-            </a>
         </x-slot>
+
+         <!-- Session Status -->
+        <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form
+            action="{{ route('users.store') }}"
+            method="POST"
+            autocomplete="off"
+        >
             @csrf
+
             <div class="space-y-4">
-                <!-- Name -->
+                <!-- User name -->
                 <div class="space-y-1">
                     <x-label for="name" :value="__('Name')" />
 
-                    <x-input id="name" class="w-full block" type="text" name="name" :value="old('name')" required autofocus />
+                    <x-input id="name" class="w-full block"
+                        type="text"
+                        name="name"
+                        :value="old('name')" required autofocus
+                    />
                 </div>
 
                 <!-- Email Address -->
                 <div class="space-y-1">
                     <x-label for="email" :value="__('Email')" />
 
-                    <x-input id="email" class="w-full block" type="email" name="email" :value="old('email')" required />
+                    <x-input id="email" class="w-full block"
+                        type="email"
+                        name="email"
+                        :value="old('email')" required autofocus
+                    />
                 </div>
 
                 <!-- Password -->
@@ -34,7 +53,7 @@
                     <x-input id="password" class="w-full block"
                         type="password"
                         name="password"
-                        required autocomplete="new-password"
+                        required autocomplete="current-password"
                     />
                 </div>
 
@@ -48,16 +67,14 @@
                     />
                 </div>
 
-                <div class="flex items-center justify-end space-x-4">
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                        {{ __('Already registered?') }}
-                    </a>
-
+                <div class="flex justify-end">
                     <x-button>
-                        {{ __('Register') }}
+                        {{ __('Create') }}
                     </x-button>
                 </div>
             </div>
-        </form>
+
+         </form>
     </x-auth-card>
-</x-guest-layout>
+
+</x-app-layout>
